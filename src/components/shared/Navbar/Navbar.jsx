@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import Navlinks from "./Navlinks";
+import { Button, Drawer } from "@heroui/react";
 
 const Navbar = () => {
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Left: Logo */}
+          
           <div className="shrink-0 flex items-center">
             <Link href="/">
               <Image
@@ -21,13 +22,11 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Middle: Navigation Links */}
           <div className="hidden md:flex space-x-8">
             <Navlinks />
           </div>
 
-          {/* Right: Auth Buttons */}
-          <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             <Link
               href="/login"
               className="text-teal-600 font-medium hover:text-teal-700 transition-colors px-4 py-2"
@@ -41,6 +40,47 @@ const Navbar = () => {
               Register
             </Link>
           </div>
+
+          <div className="md:hidden flex items-center">
+            <Drawer>
+              <Button isIconOnly variant="light" aria-label="Open Menu">
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </Button>
+              <Drawer.Backdrop>
+                <Drawer.Content placement="left">
+                  <Drawer.Dialog>
+                    <Drawer.CloseTrigger />
+                    <Drawer.Header>
+                      <Drawer.Heading>Menu</Drawer.Heading>
+                    </Drawer.Header>
+                    <Drawer.Body className="flex flex-col gap-6 mt-4">
+                      <div className="flex flex-col space-y-4">
+                        <Navlinks />
+                      </div>
+                      
+                      <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
+                        <Link
+                          href="/login"
+                          className="text-teal-600 font-medium hover:text-teal-700 text-center py-2 border border-teal-600 rounded-md"
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          href="/register"
+                          className="bg-teal-600 text-white text-center py-2 rounded-md font-medium hover:bg-teal-700"
+                        >
+                          Register
+                        </Link>
+                      </div>
+                    </Drawer.Body>
+                  </Drawer.Dialog>
+                </Drawer.Content>
+              </Drawer.Backdrop>
+            </Drawer>
+          </div>
+
         </div>
       </div>
     </nav>
