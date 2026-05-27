@@ -10,13 +10,29 @@ import {
   FieldError,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { authClient } from "@/lib/auth-client";
+import { toast, ToastContainer } from "react-toastify";
+import { redirect } from "next/navigation";
 
 const LoginPage = () => {
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    // TODO: Add your login logic and error handling here
+    const userData = Object.fromEntries(formData.entries());
+    
+    const {data, error} = await authClient.signIn.email({
+      email: userData.email,
+      password: userData.password,
+    })
+    
+    if (data?.user) {
+      toast.success("Logged in successfully!");
+      setTimeout(() => {
+        redirect("/");
+      }, 1500);
+    } else {
+      toast.error(error?.message || "Login failed. Please try again.");
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -108,6 +124,11 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+      />
     </div>
   );
 };

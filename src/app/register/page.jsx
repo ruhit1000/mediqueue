@@ -11,15 +11,31 @@ import {
   Description,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { authClient } from "@/lib/auth-client";
+import { toast, ToastContainer } from "react-toastify";
+import { redirect } from "next/navigation";
 
 const RegisterPage = () => {
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    console.log("Registration Data:", data);
-
-    // TODO: Add your registration logic here
+    const userData = Object.fromEntries(formData.entries());
+    
+    // BetterAuth sign-up logic
+    const { data, error } = await authClient.signUp.email({
+      email: userData.email,
+      password: userData.password,
+      name: userData.name,
+      photoURL: userData.photoURL || undefined,
+    });
+    if (data?.user) {
+      toast.success("Registration successful! Please log in.");
+      setTimeout(() => {
+        redirect("/login");
+      }, 1500);
+    } else {
+      toast.error(error?.message || "Unknown error");
+    }
   };
 
   const handleGoogleRegister = () => {
@@ -119,9 +135,9 @@ const RegisterPage = () => {
 
         {/* Divider */}
         <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-slate-200"></div>
+          <div className="grow border-t border-slate-200"></div>
           <span className="px-4 text-sm text-slate-400">OR</span>
-          <div className="flex-grow border-t border-slate-200"></div>
+          <div className="grow border-t border-slate-200"></div>
         </div>
 
         {/* Google Social Login */}
@@ -141,6 +157,11 @@ const RegisterPage = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+      />
     </div>
   );
 };
