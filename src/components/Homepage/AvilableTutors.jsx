@@ -1,7 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Star, MapPin } from 'lucide-react';
 import TutorCard from '../ui/TutorCard';
 
 const MOCK_TUTORS = [
@@ -82,7 +80,7 @@ const AvailableTutors = () => {
           </p>
         </div>
 
-        {/* Tutors Grid (3-column layout) */}
+        {/* Tutors Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {MOCK_TUTORS.map((tutor) => (
             <TutorCard key={tutor._id} tutor={tutor} />
