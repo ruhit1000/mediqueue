@@ -19,12 +19,12 @@ const LoginPage = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const userData = Object.fromEntries(formData.entries());
-    
-    const {data, error} = await authClient.signIn.email({
+
+    const { data, error } = await authClient.signIn.email({
       email: userData.email,
       password: userData.password,
-    })
-    
+    });
+
     if (data?.user) {
       toast.success("Logged in successfully!");
       setTimeout(() => {
@@ -35,8 +35,10 @@ const LoginPage = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // TODO: Add your Google authentication logic here
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
   };
 
   return (
@@ -108,7 +110,7 @@ const LoginPage = () => {
         </div>
 
         {/* Google Social Login */}
-        <Button className="w-full" variant="tertiary">
+        <Button className="w-full" variant="tertiary" onClick={handleGoogleLogin}>
           <Icon icon="devicon:google" />
           Sign in with Google
         </Button>
@@ -124,7 +126,7 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
-      <ToastContainer 
+      <ToastContainer
         position="top-center"
         autoClose={3000}
         hideProgressBar={true}

@@ -20,7 +20,7 @@ const RegisterPage = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const userData = Object.fromEntries(formData.entries());
-    
+
     // BetterAuth sign-up logic
     const { data, error } = await authClient.signUp.email({
       email: userData.email,
@@ -38,8 +38,10 @@ const RegisterPage = () => {
     }
   };
 
-  const handleGoogleRegister = () => {
-    // TODO: Add Google authentication logic
+  const handleGoogleRegister = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
   };
 
   return (
@@ -141,7 +143,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Google Social Login */}
-        <Button className="w-full" variant="tertiary">
+        <Button className="w-full" variant="tertiary" onClick={handleGoogleRegister}>
           <Icon icon="devicon:google" />
           Sign in with Google
         </Button>
