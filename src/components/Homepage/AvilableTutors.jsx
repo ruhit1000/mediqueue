@@ -3,9 +3,12 @@ import Link from 'next/link';
 import TutorCard from '../ui/TutorCard';
 import { tutors } from '@/data/data';
 
-const AvailableTutors = () => {
+const AvailableTutors = async () => {
 
-  const avilableTutors = tutors.slice(0, 6);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featured-tutors`, {
+    cache: "no-store",
+  });
+  const avilableTutors = await res.json() || [];
 
   return (
     <section className="py-20 bg-gray-50">

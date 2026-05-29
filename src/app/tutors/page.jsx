@@ -1,10 +1,14 @@
 import React from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
 import TutorCard from "@/components/ui/TutorCard";
-import { tutors } from "@/data/data";
 import SearchAndFilterBar from "@/components/ui/SearchAndFilterBar";
 
-const TutorsPage = () => {
+const TutorsPage = async () => {
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
+    cache: "no-store",
+  });
+  const tutors = await res.json() || [];
+
   return (
     <div className="min-h-screen bg-slate-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
