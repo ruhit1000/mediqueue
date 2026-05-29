@@ -78,7 +78,7 @@ const TutorCard = ({ tutor }) => {
             href={`/tutors/${tutor._id}`}
             className="px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition-colors shadow-sm"
           >
-            View Profile
+            Book Session
           </Link>
         </div>
       </div>
