@@ -1,3 +1,5 @@
+import dns from "node:dns/promises";
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
@@ -8,10 +10,10 @@ const db = client.db("mediqueuedb");
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
-    client
+    client,
   }),
-  emailAndPassword: { 
-    enabled: true, 
-    autoLogin: false,
-  },
+  emailAndPassword: {
+    enabled: true,
+    autoSignIn: false,
+  }
 });

@@ -52,16 +52,6 @@ const MOCK_TUTORS = [
     rating: 4.7,
     reviews: 9,
     hourlyFee: 25,
-  },
-  {
-    _id: '6',
-    name: 'Dr. Olivia Patel',
-    image: 'https://images.unsplash.com/photo-1594824476961-43e808f01b08?auto=format&fit=crop&q=80&w=400',
-    subjects: ['Biology', 'Anatomy'],
-    location: 'Knowledge City (Both)',
-    rating: 5,
-    reviews: 42,
-    hourlyFee: 50,
   }
 ];
 
