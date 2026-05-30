@@ -1,13 +1,11 @@
 import React from "react";
 import TutorCard from "@/components/ui/TutorCard";
 import SearchAndFilterBar from "@/components/ui/SearchAndFilterBar";
+import { allTutors } from "@/data/data";
 
 const TutorsPage = async () => {
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
-    cache: "no-store",
-  });
-  const tutors = await res.json() || [];
+  const tutors = await allTutors();
 
   return (
     <div className="min-h-screen bg-slate-50 py-12">

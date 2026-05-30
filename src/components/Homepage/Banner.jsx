@@ -6,7 +6,6 @@ import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { bannerData } from "@/data/data";
 
-
 export default function Banner() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -27,9 +26,7 @@ export default function Banner() {
   }, [nextSlide, currentSlide]);
 
   return (
-    <div
-      className="relative h-120 sm:h-135 overflow-hidden bg-slate-900 group"
-    >
+    <div className="relative h-120 sm:h-135 overflow-hidden bg-slate-900 group">
       {bannerData.map((slide, index) => (
         <div
           key={slide.id}
@@ -73,12 +70,18 @@ export default function Banner() {
                   Discover Tutors <ChevronRight className="h-4 w-4" />
                 </Link>
 
-                <Link
+                <a
                   href="#how-it-works"
-                  className="px-6 py-3 bg-white/10 hover:bg-white/20 transition-all font-semibold rounded-xl text-sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("how-it-works")?.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="px-6 py-3 bg-white/10 hover:bg-white/20 transition-all font-semibold rounded-xl text-sm cursor-pointer"
                 >
                   How it Works
-                </Link>
+                </a>
               </div>
             </div>
           </div>

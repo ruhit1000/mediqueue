@@ -12,6 +12,9 @@ import {
   Globe,
   ShieldCheck,
   User as UserIcon,
+  Laptop,
+  CalendarDays,
+  Clock3,
 } from "lucide-react";
 import { Button } from "@heroui/react";
 
@@ -26,9 +29,7 @@ const TutorDetailsPage = async ({ params }) => {
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 flex flex-col">
       <div className="max-w-7xl mx-auto w-full grow flex flex-col lg:flex-row gap-8">
-        {/* Left Column: Tutor Information */}
         <div className="w-full lg:w-2/3 space-y-8">
-          {/* Profile Header Card */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
             <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-4 border-teal-50 shrink-0 bg-slate-100 flex items-center justify-center">
               {tutorData?.image ? (
@@ -62,7 +63,6 @@ const TutorDetailsPage = async ({ params }) => {
                   </div>
                 </div>
 
-                {/* Rating Badge */}
                 <div className="flex items-center gap-1 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100 shrink-0 mx-auto sm:mx-0">
                   <Star className="w-5 h-5 text-amber-500 fill-amber-500" />
                   <span className="font-bold text-amber-700">
@@ -74,25 +74,29 @@ const TutorDetailsPage = async ({ params }) => {
                 </div>
               </div>
 
-              {/* Quick Stats Grid */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
                 <div className="flex items-center gap-2 text-slate-600 bg-slate-50 p-3 rounded-lg">
                   <Award className="w-5 h-5 text-teal-600 shrink-0" />
                   <span className="text-sm font-medium">
-                    {tutorData?.experience || "Experience not listed"}
+                    {tutorData?.experience || "Exp. unlisted"}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 bg-slate-50 p-3 rounded-lg">
                   <Globe className="w-5 h-5 text-teal-600 shrink-0" />
                   <span className="text-sm font-medium line-clamp-1">
-                    {tutorData?.languages?.[0] || "Language not specified"}
+                    {tutorData?.languages?.[0] || "Language unlisted"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-600 bg-slate-50 p-3 rounded-lg col-span-2 sm:col-span-1">
+                  <Laptop className="w-5 h-5 text-teal-600 shrink-0" />
+                  <span className="text-sm font-medium">
+                    {tutorData?.teachingMode || "Mode unlisted"}
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* About Section */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
             <h2 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-4">
               About the Tutor
@@ -103,7 +107,6 @@ const TutorDetailsPage = async ({ params }) => {
             </p>
           </div>
 
-          {/* Subjects Expertise */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
             <h2 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-4 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-teal-600" /> Expertise
@@ -126,7 +129,62 @@ const TutorDetailsPage = async ({ params }) => {
             </div>
           </div>
 
-          {/* Education Background */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-2">
+              <CalendarDays className="w-5 h-5 text-teal-600" /> Availability &
+              Schedule
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Days */}
+              <div>
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                  Available Days
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {tutorData?.availableDays &&
+                  tutorData.availableDays.length > 0 ? (
+                    tutorData.availableDays.map((day, idx) => (
+                      <span
+                        key={idx}
+                        className="px-4 py-2 bg-slate-50 text-slate-700 text-sm font-medium rounded-lg border border-slate-200"
+                      >
+                        {day}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-slate-500 italic">
+                      Days not specified.
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                  Time Slots
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {tutorData?.availableTimeSlots &&
+                  tutorData.availableTimeSlots.length > 0 ? (
+                    tutorData.availableTimeSlots.map((time, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-3 text-slate-700 bg-slate-50 px-4 py-2.5 rounded-lg border border-slate-200 text-sm font-medium"
+                      >
+                        <Clock3 className="w-4 h-4 text-teal-500" />
+                        {time}
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-slate-500 italic">
+                      Time slots not specified.
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
             <h2 className="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-2">
               <GraduationCap className="w-5 h-5 text-teal-600" /> Education
@@ -166,14 +224,12 @@ const TutorDetailsPage = async ({ params }) => {
           </div>
         </div>
 
-        {/* Right Column: Sticky Booking Card */}
         <div className="w-full lg:w-1/3">
           <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-teal-100 p-8 sticky top-25">
             <h2 className="text-xl font-bold text-slate-900 mb-6">
               Book a Session
             </h2>
 
-            {/* Price */}
             <div className="mb-8">
               <p className="text-sm text-slate-500 font-medium mb-1">
                 Hourly Rate
@@ -186,7 +242,6 @@ const TutorDetailsPage = async ({ params }) => {
               </div>
             </div>
 
-            {/* Session Info Details */}
             <div className="space-y-4 mb-8">
               <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <div className="p-2 bg-white rounded-lg shadow-sm text-teal-600 shrink-0">
@@ -220,7 +275,6 @@ const TutorDetailsPage = async ({ params }) => {
               </div>
             </div>
 
-            {/* Action Button */}
             <Button className="w-full bg-teal-600 text-white font-semibold py-7 rounded-xl hover:bg-teal-700 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-lg">
               <Clock className="w-5 h-5" />
               Book Now

@@ -128,3 +128,19 @@ export const bannerData = [
     badgeColor: "text-indigo-300 bg-indigo-500/20 border-indigo-500/50",
   },
 ];
+
+export const featuredTutors = async() => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featured-tutors`, {
+    cache: "no-store",
+  });
+  const data = await res.json() || [];
+  return data;
+}
+
+export const allTutors = async() => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
+    cache: "no-store",
+  });
+  const data = await res.json() || [];
+  return data;
+}
