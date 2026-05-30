@@ -156,7 +156,7 @@ export const allTutors = async () => {
   return data;
 };
 
-export const selectedTutor = async (id, token) => {
+export const fetchSingleTutor = async (id, token) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`, {
       cache: "no-store",

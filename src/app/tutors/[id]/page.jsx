@@ -6,7 +6,6 @@ import {
   Calendar,
   Users,
   BookOpen,
-  Clock,
   GraduationCap,
   Award,
   Globe,
@@ -16,10 +15,10 @@ import {
   CalendarDays,
   Clock3,
 } from "lucide-react";
-import { Button } from "@heroui/react";
-import { selectedTutor } from "@/data/data";
+import { fetchSingleTutor } from "@/data/data";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { TutorBookingModal } from "@/components/ui/TutorBookingModal";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -27,7 +26,11 @@ const TutorDetailsPage = async ({ params }) => {
     headers: await headers(),
   });
 
-  const tutorData = await selectedTutor(id, token);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const tutorData = await fetchSingleTutor(id, token);
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 flex flex-col">
@@ -278,10 +281,12 @@ const TutorDetailsPage = async ({ params }) => {
               </div>
             </div>
 
-            <Button className="w-full bg-teal-600 text-white font-semibold py-7 rounded-xl hover:bg-teal-700 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-lg">
-              <Clock className="w-5 h-5" />
-              Book Now
-            </Button>
+            <TutorBookingModal
+              tutorId={tutorData?._id}
+              tutorName={tutorData?.name}
+              tutorImage={tutorData?.image}
+              studentEmail={session?.user.email}
+            />
 
             <p className="text-center text-xs text-slate-400 mt-4">
               You won't be charged yet.

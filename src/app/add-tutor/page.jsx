@@ -16,7 +16,8 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { Button, Spinner } from "@heroui/react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { redirect } from "next/navigation";
 
 const AddTutorPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,13 +82,11 @@ const AddTutorPage = () => {
       reviews: 0,
     };
 
-    console.log("Collected Tutor Data:", newTutorData);
-
-    // TODO: POST request to backend
     setTimeout(() => {
-      alert("Tutor added successfully!"); // Replace with Toast notification
+      toast.success("Tutor added successfully!");
       setIsSubmitting(false);
       e.target.reset();
+      redirect("/tutors");
       setEducationList([{ degree: "", institution: "", year: "" }]);
     }, 1000);
   };
