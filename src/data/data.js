@@ -129,18 +129,48 @@ export const bannerData = [
   },
 ];
 
-export const featuredTutors = async() => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featured-tutors`, {
-    cache: "no-store",
-  });
-  const data = await res.json() || [];
-  return data;
-}
+export const featuredTutors = async (token) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/featured-tutors`,
+      {
+        cache: "no-store",
+      },
+    );
+    if (!res.ok) {
+      console.error("Failed to fetch featured tutors");
+      return [];
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching featured tutors:", error);
+    return [];
+  }
+};
 
-export const allTutors = async() => {
+export const allTutors = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
     cache: "no-store",
   });
-  const data = await res.json() || [];
+  const data = (await res.json()) || [];
   return data;
-}
+};
+
+export const selectedTutor = async (id, token) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      console.error(`Failed to fetch tutor with id ${id}`);
+      return {};
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching selected tutor:", error);
+    return {};
+  }
+};

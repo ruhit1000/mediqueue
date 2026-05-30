@@ -17,14 +17,17 @@ import {
   Clock3,
 } from "lucide-react";
 import { Button } from "@heroui/react";
+import { selectedTutor } from "@/data/data";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`, {
-    cache: "no-store",
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
   });
-  const tutorData = (await res.json()) || {};
+
+  const tutorData = await selectedTutor(id, token);
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 flex flex-col">
