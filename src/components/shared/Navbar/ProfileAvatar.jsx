@@ -1,25 +1,33 @@
+"use client"; // Required for interactivity (onClick, useState, useRouter)
+
 import { authClient } from "@/lib/auth-client";
 import {
   ArrowRightFromSquare,
   File,
   Gear,
-  Person,
   PersonPlus,
-  Persons,
   PersonsLock,
 } from "@gravity-ui/icons";
 import { Avatar, Dropdown, Label } from "@heroui/react";
-import { redirect } from "next/navigation";
-import React from "react";
+import { useRouter } from "next/navigation"; // Changed from redirect
+import React, { useState } from "react";
 
 const ProfileAvatar = ({ user }) => {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const handleNavigation = (path) => {
+    setIsOpen(false);
+    router.push(path);
+  };
+
   const handleLogout = async () => {
+    setIsOpen(false);
     await authClient.signOut();
-    redirect("/");
+    router.push("/");
   };
 
   return (
-    <Dropdown>
+    <Dropdown open={isOpen} onOpenChange={setIsOpen}>
       <Dropdown.Trigger className="rounded-full">
         <Avatar>
           <Avatar.Image
@@ -32,6 +40,7 @@ const ProfileAvatar = ({ user }) => {
           </Avatar.Fallback>
         </Avatar>
       </Dropdown.Trigger>
+      
       <Dropdown.Popover>
         <div className="px-3 pt-3 pb-1">
           <div className="flex items-center gap-2">
@@ -51,43 +60,53 @@ const ProfileAvatar = ({ user }) => {
             </div>
           </div>
         </div>
+        
         <Dropdown.Menu>
+          {/* 4. Use the helper function for the onClick events */}
           <Dropdown.Item
             id="add-tutor"
             textValue="Add Tutor"
-            onClick={() => redirect("/add-tutor")}
+            onClick={() => handleNavigation("/add-tutor")}
           >
             <div className="flex w-full items-center justify-between gap-2">
               <Label>Add Tutor</Label>
               <PersonPlus className="size-3.5 text-muted" />
             </div>
           </Dropdown.Item>
+          
           <Dropdown.Item
             id="profile"
             textValue="My Tutors"
-            onClick={() => redirect("/my-tutors")}
+            onClick={() => handleNavigation("/my-tutors")}
           >
             <div className="flex w-full items-center justify-between gap-2">
               <Label>My Tutors</Label>
               <PersonsLock className="size-3.5 text-muted" />
             </div>
           </Dropdown.Item>
+          
           <Dropdown.Item
             id="sessions"
             textValue="My Sessions"
-            onClick={() => redirect("/my-booked-sessions")}
+            onClick={() => handleNavigation("/my-booked-sessions")}
           >
             <div className="flex w-full items-center justify-between gap-2">
               <Label>My Sessions</Label>
               <File className="size-3.5 text-muted" />
             </div>
           </Dropdown.Item>
-          <Dropdown.Item id="settings" textValue="Settings" onClick={() => redirect("/my-profile")}>
+          
+          <Dropdown.Item 
+            id="settings" 
+            textValue="Settings" 
+            onClick={() => handleNavigation("/my-profile")}
+          >
             <div className="flex w-full items-center justify-between gap-2">
               <Label>Settings</Label>
               <Gear className="size-3.5 text-muted" />
             </div>
           </Dropdown.Item>
+          
           <Dropdown.Item
             id="logout"
             textValue="Logout"

@@ -1,9 +1,13 @@
+'use client';
 import React from "react";
 import Image from "next/image";
-import { CalendarDays, Mail, Phone, Trash2, User } from "lucide-react"; // Added User icon
-import { Button } from "@heroui/react";
+import { CalendarDays, Mail, Phone, Trash2, User } from "lucide-react";
+import { CancelSessionAlert } from "./CancelSessionAlert";
+import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-export const BookedSessionCard = ({ booking }) => {
+export const BookedSessionCard = ({ booking, token }) => {
+  const router = useRouter();
   const formattedDate = new Date(booking.bookingDate).toLocaleDateString(
     "en-US",
     {
@@ -12,6 +16,35 @@ export const BookedSessionCard = ({ booking }) => {
       day: "numeric",
     },
   );
+
+  const handleCancelBooking = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/bookings/${booking._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await res.json();
+
+      if (res.ok && data.deletedCount > 0) {
+        toast.success("Session cancelled successfully!");
+        setTimeout(() => {
+          router.refresh();
+        }, 1500);
+      } else {
+        toast.error(data.error || "Failed to cancel session.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while canceling.");
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
@@ -64,15 +97,13 @@ export const BookedSessionCard = ({ booking }) => {
       </div>
 
       <div className="pt-2">
-        <Button
-          variant="flat"
-          color="danger"
-          className="w-full bg-red-50 text-red-600 hover:bg-red-100 font-semibold"
-        >
-          <Trash2 className="w-4 h-4" />
-          Cancel Session
-        </Button>
+        <CancelSessionAlert tutorName={booking.tutorName} onConfirm={handleCancelBooking} />
       </div>
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+      />
     </div>
   );
 };

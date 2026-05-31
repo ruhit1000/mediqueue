@@ -192,4 +192,4 @@ export const fetchBookedSessions = async (userId, token) => {
     console.error("Error fetching booked sessions:", error);
     return [];
   }
-}
+};

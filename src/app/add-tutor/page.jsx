@@ -18,16 +18,17 @@ import {
 import { Button, Spinner } from "@heroui/react";
 import { toast, ToastContainer } from "react-toastify";
 import { redirect } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const AddTutorPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
 
-  // Dynamic State for Education
   const [educationList, setEducationList] = useState([
     { degree: "", institution: "", year: "" },
   ]);
 
-  // --- Education Handlers ---
   const handleAddEducation = () =>
     setEducationList([
       ...educationList,
@@ -41,15 +42,15 @@ const AddTutorPage = () => {
     setEducationList(newList);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const formData = new FormData(e.target);
     const userData = Object.fromEntries(formData.entries());
 
-    // Merging the flat form data with our dynamic arrays and specific data types
     const newTutorData = {
+      userId,
       name: userData.name,
       image: userData.image,
       location: userData.location,
@@ -60,7 +61,6 @@ const AddTutorPage = () => {
       experience: userData.experience,
       about: userData.about,
 
-      // Formatting specific fields (Splitting by comma and removing extra spaces/empty strings)
       subjects: userData.subjects
         .split(",")
         .map((sub) => sub.trim())
@@ -70,25 +70,39 @@ const AddTutorPage = () => {
         .map((lang) => lang.trim())
         .filter(Boolean),
       availableTimeSlots: [userData.timeSlot],
-
-      // Object.fromEntries destroys checkbox arrays, so we must use getAll()
       availableDays: formData.getAll("availableDays"),
-
-      // Pulling from React State (filtering out empty ones just in case)
       education: educationList.filter((edu) => edu.degree.trim() !== ""),
-
-      // Default Stats for a new tutor
       rating: 0,
       reviews: 0,
     };
 
-    setTimeout(() => {
+    const { data, error } = await authClient.token();
+    const token = data?.token;
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(newTutorData),
+    });
+
+    const result = await res.json();
+
+    if (result.acknowledged) {
       toast.success("Tutor added successfully!");
       setIsSubmitting(false);
       e.target.reset();
+    } else {
+      toast.error("Failed to add tutor. Please try again.");
+      setIsSubmitting(false);
+      return;
+    }
+    setTimeout(() => {
       redirect("/tutors");
       setEducationList([{ degree: "", institution: "", year: "" }]);
-    }, 1000);
+    }, 1500);
   };
 
   return (
@@ -459,7 +473,7 @@ const AddTutorPage = () => {
           </div>
         </form>
       </div>
-      <ToastContainer 
+      <ToastContainer
         position="top-center"
         autoClose={3000}
         hideProgressBar={true}
