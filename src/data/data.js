@@ -193,3 +193,22 @@ export const fetchBookedSessions = async (userId, token) => {
     return [];
   }
 };
+
+export const fetchAddedTutors = async (token, userId) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-tutors/${userId}`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      console.error(`Failed to fetch added tutors for user ${userId}`);
+      return [];
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching added tutors:", error);
+    return [];
+  }
+}
