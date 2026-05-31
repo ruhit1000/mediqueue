@@ -1,18 +1,40 @@
+"use client";
 import React from "react";
 import Image from "next/image";
-import {
-  BookOpen,
-  MapPin,
-  Star,
-  Trash2,
-  Edit,
-  DollarSign,
-  Users,
-} from "lucide-react";
+import { BookOpen, MapPin, Star, Edit, DollarSign, Users } from "lucide-react";
 import { Button } from "@heroui/react";
+import { DeleteTutorAlert } from "./DeleteTutorAlert";
+import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export const MyTutorCard = ({ tutor }) => {
+export const MyTutorCard = ({ tutor, token }) => {
+  const router = useRouter();
+
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/tutors/${tutor._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (res.ok) {
+        router.refresh();
+        toast.success("Tutor deleted successfully");
+      } else {
+        toast.error("Failed to delete tutor");
+      }
+    } catch (error) {
+      console.error("Error deleting tutor:", error);
+      toast.error("Failed to delete tutor");
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
       <div className="flex items-start gap-4 mb-4">
@@ -92,23 +114,23 @@ export const MyTutorCard = ({ tutor }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-3 mt-auto">
-        <Button
-          variant="flat"
-          className="w-full bg-teal-50 text-teal-700 hover:bg-teal-100 font-semibold flex items-center justify-center gap-2"
-        >
-          <Edit className="w-4 h-4" />
-          Update
-        </Button>
+        <Link href={`/update-tutor/${tutor._id}`}>
+          <Button
+            variant="flat"
+            className="w-full bg-teal-50 text-teal-700 hover:bg-teal-100 font-semibold flex items-center justify-center gap-2"
+          >
+            <Edit className="w-4 h-4" />
+            Update
+          </Button>
+        </Link>
 
-        <Button
-          variant="flat"
-          color="danger"
-          className="w-full bg-red-50 text-red-600 hover:bg-red-100 font-semibold flex items-center justify-center gap-2"
-        >
-          <Trash2 className="w-4 h-4" />
-          Delete
-        </Button>
+        <DeleteTutorAlert tutorName={tutor.name} onConfirm={handleDelete} />
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+      />
     </div>
   );
 };
