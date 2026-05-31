@@ -14,11 +14,13 @@ import {
   Laptop,
   CalendarDays,
   Clock3,
+  Clock,
 } from "lucide-react";
 import { fetchSingleTutor } from "@/data/data";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { TutorBookingModal } from "@/components/ui/TutorBookingModal";
+import { Button } from "@heroui/react";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -281,12 +283,23 @@ const TutorDetailsPage = async ({ params }) => {
               </div>
             </div>
 
-            <TutorBookingModal
-              tutorId={tutorData?._id}
-              tutorName={tutorData?.name}
-              tutorImage={tutorData?.image}
-              studentEmail={session?.user.email}
-            />
+            {tutorData?.totalSlot === 0 ? (
+              <Button
+                isDisabled
+                className="w-full bg-teal-600 text-white font-semibold py-7 rounded-xl hover:bg-teal-700 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-lg"
+              >
+                <Clock className="w-5 h-5" />
+                No Slots Available
+              </Button>
+            ) : (
+              <TutorBookingModal
+                tutorId={tutorData?._id}
+                tutorName={tutorData?.name}
+                tutorImage={tutorData?.image}
+                studentEmail={session?.user.email}
+                userId={session?.user.id}
+              />
+            )}
 
             <p className="text-center text-xs text-slate-400 mt-4">
               You won't be charged yet.

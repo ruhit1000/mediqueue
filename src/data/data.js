@@ -174,3 +174,22 @@ export const fetchSingleTutor = async (id, token) => {
     return {};
   }
 };
+
+export const fetchBookedSessions = async (userId, token) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${userId}`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      console.error(`Failed to fetch booked sessions for user ${userId}`);
+      return [];
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching booked sessions:", error);
+    return [];
+  }
+}

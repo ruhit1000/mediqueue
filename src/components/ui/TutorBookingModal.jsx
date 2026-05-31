@@ -4,21 +4,20 @@ import React, { useState } from "react";
 import { Calendar } from "@gravity-ui/icons";
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { Clock } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify";
 import { authClient } from "@/lib/auth-client";
+import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export function TutorBookingModal({
   tutorId,
   tutorName,
   tutorImage,
   studentEmail,
+  userId,
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const router = useRouter();
   const handleConfirmBooking = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
     const formData = new FormData(e.target);
 
     const bookingData = {
@@ -30,33 +29,38 @@ export function TutorBookingModal({
       studentEmail: studentEmail,
       status: "Booked",
       bookingDate: new Date().toISOString(),
+      userId: userId,
     };
 
-    // console.log("Collected Booking Data:", bookingData);
-
-    // TODO: Add your backend POST logic here
-    const { data, error } = await authClient.token()
+    const { data, error } = await authClient.token();
     const token = data?.token;
     if (error) {
-        toast.error("Failed to retrieve auth token. Please try again.");
-        setIsSubmitting(false);
-        return;
+      toast.error("Failed to retrieve auth token. Please try again.");
+      return;
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${tutorId}`, {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/bookings/${tutorId}`,
+      {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(bookingData),
-    })
-    console.log("API Response:", res);
-
+      },
+    );
+    const dataRes = await res.json();
+    if (dataRes?.acknowledged) {
+      toast.success("Booking submitted successfully!");
+      e.target.reset();
+    } else {
+      toast.error("Failed to submit booking. Please try again.");
+      return;
+    }
     setTimeout(() => {
-      setIsSubmitting(false);
-      toast.success("Booking data collected! Check console.");
-    }, 1000);
+      router.push("/my-booked-sessions");
+    }, 2000);
   };
 
   return (
@@ -67,6 +71,11 @@ export function TutorBookingModal({
       </Button>
 
       <Modal.Backdrop>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={true}
+        />
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-md">
             <Modal.CloseTrigger />
@@ -86,7 +95,6 @@ export function TutorBookingModal({
               <Modal.Body className="p-6">
                 <Surface variant="default">
                   <div className="flex flex-col gap-4">
-                    {/* Auto-filled & Read-only Fields (Uncontrolled) */}
                     <div className="grid grid-cols-2 gap-4">
                       <TextField
                         className="w-full"
@@ -112,10 +120,9 @@ export function TutorBookingModal({
                       isDisabled
                     >
                       <Label>Student Email</Label>
-                      <Input value={studentEmail}/>
+                      <Input value={studentEmail} />
                     </TextField>
 
-                    {/* User Input Fields (Uncontrolled) */}
                     <TextField
                       className="w-full"
                       name="studentName"
@@ -149,21 +156,15 @@ export function TutorBookingModal({
                 </Button>
                 <Button
                   type="submit"
-                  isLoading={isSubmitting}
                   className="bg-teal-600 text-white hover:bg-teal-700"
                 >
-                  {isSubmitting ? "Processing..." : "Confirm Booking"}
+                  Confirm Booking
                 </Button>
               </Modal.Footer>
             </form>
           </Modal.Dialog>
         </Modal.Container>
       </Modal.Backdrop>
-      <ToastContainer 
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-      />
     </Modal>
   );
 }
