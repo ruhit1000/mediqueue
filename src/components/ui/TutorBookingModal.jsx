@@ -14,6 +14,7 @@ export function TutorBookingModal({
   tutorImage,
   studentEmail,
   userId,
+  sessionDate,
 }) {
   const router = useRouter();
   const handleConfirmBooking = async (e) => {
@@ -30,6 +31,7 @@ export function TutorBookingModal({
       status: "Booked",
       bookingDate: new Date().toISOString(),
       userId: userId,
+      sessionDate: sessionDate,
     };
 
     const { data, error } = await authClient.token();

@@ -296,6 +296,7 @@ const TutorDetailsPage = async ({ params }) => {
                 tutorId={tutorData?._id}
                 tutorName={tutorData?.name}
                 tutorImage={tutorData?.image}
+                sessionDate={tutorData?.sessionDate}
                 studentEmail={session?.user.email}
                 userId={session?.user.id}
               />

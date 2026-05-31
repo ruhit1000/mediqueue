@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎓 MediQueue - Tutor Booking System
 
-## Getting Started
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](https://expressjs.com/)
 
-First, run the development server:
+MediQueue is a modern, full-stack web application designed to seamlessly connect students with expert tutors. It provides a robust platform for educators to list their services, manage their schedules, and for students to easily discover and book interactive learning sessions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🔗 **[View Live Demo Here](https://your-mediqueue-live-link.vercel.app)** ---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Key Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+* **Comprehensive Tutor Profiles:** Educators can create detailed, dynamic profiles showcasing their expertise, experience, educational background, hourly rates, and available time slots.
+* **Real-Time Booking Engine:** Students can book sessions instantly. The system automatically handles inventory by decreasing available slots upon booking and restoring them if a session is canceled.
+* **Interactive Dashboards:** Dedicated, role-based dashboards (`My Tutors` and `My Booked Sessions`) allow users to effortlessly manage their teaching listings or upcoming learning schedules.
+* **Secure Authentication:** Integrated secure user authentication, ensuring that personal data, bookings, and profile management are strictly protected and user-specific.
+* **Modern, Responsive UI:** Built with a mobile-first approach using Tailwind CSS and HeroUI. The interface features beautifully designed cards, interactive modals, and empty-state illustrations for a flawless user experience across all devices.
+* **Instant Feedback & Safety:** Utilizes interactive toast notifications for real-time success/error feedback, alongside secure confirmation alerts (e.g., when deleting a profile or canceling a session) to prevent accidental data loss.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+### Frontend
+* **Framework:** [Next.js](https://nextjs.org/) (App Router & Server Actions)
+* **Library:** [React 18](https://react.dev/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **UI Components:** [HeroUI](https://heroui.com/)
+* **Icons:** Lucide React & Gravity UI Icons
+* **Alerts:** React Toastify / React Hot Toast
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Backend
+* **Runtime:** Node.js
+* **Framework:** Express.js
+* **Database:** MongoDB (with native driver)
+* **Security:** CORS, JWT-based Authentication middleware
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🚀 Getting Started
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To get a local copy up and running, follow these simple steps.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+* [Node.js](https://nodejs.org/en/) (v18.x or higher)
+* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+* A MongoDB Database (Local or MongoDB Atlas)
+
+### Installation
+
+1. **Clone the repository**
+   ```sh
+   git clone [https://github.com/your-username/mediqueue.git](https://github.com/your-username/mediqueue.git)
+   cd mediqueue
+   ```
+
+2. **Install Frontend Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up Environment Variables**
+Create a `.env.local` file in the root directory and add your specific configurations:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:5000
+   # Add your auth secrets and other variables here
+   ```
+
+4. **Run the Development Server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Start the Backend Server** (Assuming your backend is in a separate folder or repo)
+   ```bash
+   cd server
+   npm install
+   npm run start
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
+
+## 🤝 Contributing
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+*Designed & Developed by [Ruhit Paul](https://github.com/your-github-username)*

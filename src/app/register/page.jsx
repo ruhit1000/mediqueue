@@ -21,7 +21,6 @@ const RegisterPage = () => {
     const formData = new FormData(e.target);
     const userData = Object.fromEntries(formData.entries());
 
-    // BetterAuth sign-up logic
     const { data, error } = await authClient.signUp.email({
       email: userData.email,
       password: userData.password,
@@ -68,7 +67,7 @@ const RegisterPage = () => {
             <FieldError className="text-red-500 text-sm mt-1" />
           </TextField>
 
-          {/* Photo URL Field (Optional) */}
+          {/* Photo URL Field */}
           <TextField name="photoURL" type="url">
             <Label className="text-slate-700 font-medium">
               Photo URL (Optional)

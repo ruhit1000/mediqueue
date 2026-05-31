@@ -24,6 +24,7 @@ const AddTutorPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
+  const today = new Date().toISOString().split('T')[0];
 
   const [educationList, setEducationList] = useState([
     { degree: "", institution: "", year: "" },
@@ -227,6 +228,7 @@ const AddTutorPage = () => {
                   required
                   name="sessionDate"
                   type="date"
+                  min={today}
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-teal-500 text-slate-700"
                 />
               </div>

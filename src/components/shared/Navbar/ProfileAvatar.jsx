@@ -62,7 +62,6 @@ const ProfileAvatar = ({ user }) => {
         </div>
         
         <Dropdown.Menu>
-          {/* 4. Use the helper function for the onClick events */}
           <Dropdown.Item
             id="add-tutor"
             textValue="Add Tutor"

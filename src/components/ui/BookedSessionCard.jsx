@@ -5,10 +5,20 @@ import { CalendarDays, Mail, Phone, Trash2, User } from "lucide-react";
 import { CancelSessionAlert } from "./CancelSessionAlert";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const BookedSessionCard = ({ booking, token }) => {
   const router = useRouter();
   const formattedDate = new Date(booking.bookingDate).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  );
+
+  const formattedSessionDate = new Date(booking.sessionDate).toLocaleDateString(
     "en-US",
     {
       year: "numeric",
@@ -57,9 +67,11 @@ export const BookedSessionCard = ({ booking, token }) => {
           className="w-16 h-16 rounded-full object-cover border-2 border-teal-50"
         />
         <div>
-          <h3 className="font-bold text-lg text-slate-900">
-            {booking.tutorName}
-          </h3>
+          <Link href={`/tutors/${booking.tutorId}`}>
+            <h3 className="font-bold text-lg text-slate-900">
+              {booking.tutorName}
+            </h3>
+          </Link>
           <span className="inline-block px-3 py-1 bg-teal-50 text-teal-700 text-xs font-semibold rounded-full mt-1">
             {booking.status}
           </span>
@@ -82,6 +94,14 @@ export const BookedSessionCard = ({ booking, token }) => {
           <span>
             Booked on:{" "}
             <span className="font-medium text-slate-800">{formattedDate}</span>
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 text-slate-600 text-sm">
+          <CalendarDays className="w-4 h-4 text-slate-400" />
+          <span>
+            Session Date:{" "}
+            <span className="font-medium text-slate-800">{formattedSessionDate}</span>
           </span>
         </div>
 
