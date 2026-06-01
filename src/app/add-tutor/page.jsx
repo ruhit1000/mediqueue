@@ -52,7 +52,6 @@ const AddTutorPage = () => {
 
     const newTutorData = {
       userId,
-      createdAt: new Date().toISOString(),
       name: userData.name,
       image: userData.image,
       location: userData.location,
