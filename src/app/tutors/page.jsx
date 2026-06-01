@@ -3,9 +3,10 @@ import TutorCard from "@/components/ui/TutorCard";
 import SearchAndFilterBar from "@/components/ui/SearchAndFilterBar";
 import { allTutors } from "@/data/data";
 
-const TutorsPage = async () => {
+const TutorsPage = async ({searchParams}) => {
+  const searchValue = await searchParams;
 
-  const tutors = await allTutors();
+  const tutors = await allTutors(searchValue?.search || '');
 
   return (
     <div className="min-h-screen bg-slate-50 py-12">

@@ -34,6 +34,16 @@ const TutorDetailsPage = async ({ params }) => {
 
   const tutorData = await fetchSingleTutor(id, token);
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let isSessionPassed = false;
+  if (tutorData?.sessionDate) {
+    const sessionDate = new Date(tutorData.sessionDate);
+    sessionDate.setHours(0, 0, 0, 0);
+    isSessionPassed = sessionDate < today;
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 flex flex-col">
       <div className="max-w-7xl mx-auto w-full grow flex flex-col lg:flex-row gap-8">
@@ -283,13 +293,21 @@ const TutorDetailsPage = async ({ params }) => {
               </div>
             </div>
 
-            {tutorData?.totalSlot === 0 ? (
+            {isSessionPassed ? (
               <Button
                 isDisabled
-                className="w-full bg-teal-600 text-white font-semibold py-7 rounded-xl hover:bg-teal-700 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-lg"
+                className="w-full bg-slate-300 text-slate-500 font-semibold py-7 rounded-xl flex items-center justify-center gap-2 text-lg cursor-not-allowed"
+              >
+                <CalendarDays className="w-5 h-5" />
+                Session Ended
+              </Button>
+            ) : tutorData?.totalSlot <= 0 ? (
+              <Button
+                isDisabled
+                className="w-full bg-slate-300 text-slate-500 font-semibold py-7 rounded-xl flex items-center justify-center gap-2 text-lg cursor-not-allowed"
               >
                 <Clock className="w-5 h-5" />
-                No Slots Available
+                Fully Booked
               </Button>
             ) : (
               <TutorBookingModal

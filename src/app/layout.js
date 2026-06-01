@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Home - MediQueue",
-  description: "MediQueue is a tutor booking platform that connects students with expert tutors for personalized learning experiences. Find the perfect tutor for your needs and schedule sessions with ease.",
+  description:
+    "MediQueue is a tutor booking platform that connects students with expert tutors for personalized learning experiences. Find the perfect tutor for your needs and schedule sessions with ease.",
 };
 
 export default function RootLayout({ children }) {
@@ -24,10 +25,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <Navbar />
-        {children}
-        <Footer />
+      <body className="min-h-full flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
       </body>
     </html>
   );

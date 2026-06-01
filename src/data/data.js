@@ -148,8 +148,8 @@ export const featuredTutors = async (token) => {
   }
 };
 
-export const allTutors = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
+export const allTutors = async (searchTerm = '') => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors?search=${searchTerm}`, {
     cache: "no-store",
   });
   const data = (await res.json()) || [];
