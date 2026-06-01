@@ -8,7 +8,7 @@
 
 MediQueue is a modern, full-stack web application designed to seamlessly connect students with expert tutors. It provides a robust platform for educators to list their services, manage their schedules, and for students to easily discover and book interactive learning sessions.
 
-🔗 **[View Live Demo Here](https://your-mediqueue-live-link.vercel.app)** ---
+🔗 **[View Live Demo Here](https://mediqueue-sage.vercel.app/)** ---
 
 ## ✨ Key Features
 
@@ -52,7 +52,7 @@ To get a local copy up and running, follow these simple steps.
 
 1. **Clone the repository**
    ```sh
-   git clone [https://github.com/your-username/mediqueue.git](https://github.com/your-username/mediqueue.git)
+   git clone [https://github.com/your-username/mediqueue.git](https://github.com/ruhit1000/mediqueue.git)
    cd mediqueue
    ```
 
@@ -94,4 +94,4 @@ Contributions are what make the open-source community such an amazing place to l
 ## 📄 License
 Distributed under the MIT License. See `LICENSE` for more information.
 
-*Designed & Developed by [Ruhit Paul](https://github.com/your-github-username)*
+*Designed & Developed by [Ruhit Paul](https://github.com/ruhit1000)*
