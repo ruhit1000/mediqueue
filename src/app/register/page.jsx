@@ -29,6 +29,9 @@ const RegisterPage = () => {
     });
     if (data?.user) {
       toast.success("Registration successful! Please log in.");
+      fetch(`${process.env.BETTER_AUTH_URL}/api/send-email?email=${userData.email}&name=${userData.name}`, {
+        method: "POST",
+      })
       setTimeout(() => {
         redirect("/login");
       }, 1500);
