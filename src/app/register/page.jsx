@@ -29,9 +29,11 @@ const RegisterPage = () => {
     });
     if (data?.user) {
       toast.success("Registration successful! Please log in.");
-      fetch(`${process.env.BETTER_AUTH_URL}/api/send-email?email=${userData.email}&name=${userData.name}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-email`, {
         method: "POST",
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: userData.email, name: userData.name }),
+      });
       setTimeout(() => {
         redirect("/login");
       }, 1500);
@@ -145,7 +147,11 @@ const RegisterPage = () => {
         </div>
 
         {/* Google Social Login */}
-        <Button className="w-full" variant="tertiary" onClick={handleGoogleRegister}>
+        <Button
+          className="w-full"
+          variant="tertiary"
+          onClick={handleGoogleRegister}
+        >
           <Icon icon="devicon:google" />
           Sign in with Google
         </Button>
